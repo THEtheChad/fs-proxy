@@ -5,7 +5,6 @@
   "author": "Chad Elliott <chad.d.elliott@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "debug": "^3.1.0",
     "uuid": "^3.2.1"
   },
   "scripts": {

@@ -1,8 +1,8 @@
 {
-  "name": "fs-proxy",
+  "name": "stream-fs-proxy",
   "version": "1.0.0",
   "main": "lib/index.js",
-  "author": "Chad Elliott <chad@exceleratedigital.com>",
+  "author": "Chad Elliott <chad.d.elliott@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "debug": "^3.1.0",

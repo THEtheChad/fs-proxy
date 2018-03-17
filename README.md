@@ -7,10 +7,22 @@ steam-fs-proxy is a simple pass through stream that temporarily caches the input
 
 ## Installation
 
-```
+```js
 npm install stream-fs-proxy --save
 ```
 
-```
+```js
 yarn add stream-fs-proxy
+```
+
+## Usage
+
+```js
+const FSProxy = require('stream-fs-proxy')
+
+http.get('a-large-dataset', function(err, res) {
+  res
+    .pipe(new FSProxy)
+    .pipe(new SlowProcess)
+})
 ```

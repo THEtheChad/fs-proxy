@@ -23,6 +23,6 @@ const FSProxy = require('stream-fs-proxy')
 http.get('a-large-dataset', function(err, res) {
   res
     .pipe(new FSProxy)
-    .pipe(new SlowProcess)
+    .pipe(new SlowStream)
 })
 ```

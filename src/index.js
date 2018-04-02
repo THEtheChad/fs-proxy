@@ -19,10 +19,14 @@ export default class FSProxy extends stream.Duplex {
     this.readPos = 0
     this.writePos = 0
     this.error = null
+
+    this.isReading = false
+    this.isWaiting = false
   }
 
   _read() {
-    if (this.waiting) return
+    if (this.isReading) return
+    this.isReading = true
 
     let available = this.writePos - this.readPos
     while (available > 0) {
@@ -37,25 +41,20 @@ export default class FSProxy extends stream.Duplex {
       this.readPos += bytesRead
 
       // if stream buffer is full, exit and wait for next read
-      if (!this.push(buffer)) return
+      if (!this.push(buffer)) {
+        this.isReading = false
+        return
+      }
     }
 
-    this.nextAvailable()
-  }
-
-  nextAvailable() {
-    if (this.finished) return
-
-    this.waiting = true
     this.once('available', () => {
-      this.waiting = false
+      this.isWaiting = false
       this._read()
     })
+    this.isWaiting = true
   }
 
   _final(done) {
-    this.finished = true
-
     // flush contents from buffer
     this._read()
 
@@ -71,7 +70,7 @@ export default class FSProxy extends stream.Duplex {
       if (err) this.destroy(err)
       this.writePos += bytes
       done()
-      if (this.waiting) this.emit('available')
+      if (this.isWaiting) this.emit('available')
     })
   }
 }

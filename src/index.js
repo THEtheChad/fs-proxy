@@ -22,6 +22,8 @@ export default class FSProxy extends stream.Duplex {
   }
 
   _read() {
+    if (this.waiting) return
+
     let available = this.writePos - this.readPos
     while (available > 0) {
       let bytesToRead = available

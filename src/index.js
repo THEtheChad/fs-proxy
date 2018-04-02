@@ -49,6 +49,7 @@ export default class FSProxy extends stream.Duplex {
 
     this.once('available', () => {
       this.isWaiting = false
+      this.isReading = false
       this._read()
     })
     this.isWaiting = true
